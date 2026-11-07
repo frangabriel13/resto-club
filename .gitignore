@@ -1,0 +1,7 @@
+# Repos propios: cada uno se versiona por separado
+/resto-api/
+/resto-front/
+
+# Tablero generado por roadmap/build.mjs
+/roadmap/index.html
+/roadmap/index.html.tmp

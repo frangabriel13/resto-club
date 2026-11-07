@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --text: #15171c;
+    --muted: #667085;
+    --muted-2: #a3abb8;
+    --line: #e7e9ee;
+    --track: #eceef2;
+    --code-bg: #f0f2f5;
+    --accent: #4f46e5;
+    --accent-bg: #eef0ff;
+    --accent-soft: #f7f7ff;
+    --ok: #15924a;
+    --ok-bg: #e8f6ee;
+    --warn: #b86e00;
+    --warn-bg: #fdf3e2;
+    --bad: #d02c2c;
+    --bad-bg: #fdecec;
+    --api: #2563eb;
+    --api-bg: #e9f0ff;
+    --front: #0b8a7c;
+    --front-bg: #e3f6f3;
+    --ambos: #9035e0;
+    --ambos-bg: #f3eafd;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1014;
+      --card: #16191f;
+      --text: #e7e9ee;
+      --muted: #98a1b0;
+      --muted-2: #5d6573;
+      --line: #252a33;
+      --track: #262b34;
+      --code-bg: #20242c;
+      --accent: #8b85ff;
+      --accent-bg: #23224a;
+      --accent-soft: #1a1b2e;
+      --ok: #4ccb7f;
+      --ok-bg: #14301f;
+      --warn: #f0a63a;
+      --warn-bg: #36270f;
+      --bad: #ff6b6b;
+      --bad-bg: #3a1a1c;
+      --api: #6ea0ff;
+      --api-bg: #1a2742;
+      --front: #3ccfbd;
+      --front-bg: #123430;
+      --ambos: #c48cff;
+      --ambos-bg: #2e1d44;
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.5 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 16px 56px; }
+  p { margin: 0; }
+  code {
+    font: 12.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 5px;
+    overflow-wrap: anywhere;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+  h1 { font-size: 30px; letter-spacing: -0.025em; margin: 0; line-height: 1.1; }
+  .sub { margin-top: 6px; color: var(--muted); }
+  .countdown { text-align: right; flex-shrink: 0; }
+  .countdown strong { display: block; font-size: 42px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .countdown small { color: var(--muted); font-size: 13px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+
+  .bar { height: 6px; background: var(--track); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+  .bar.big { height: 10px; }
+
+  .overall { margin-bottom: 12px; }
+  .overall-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-weight: 600; }
+  .overall-head strong { font-size: 24px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .overall-text { margin-top: 10px; color: var(--muted); font-size: 14px; }
+  .overall-text .late { color: var(--bad); font-weight: 600; }
+  .overall-text .doing { color: var(--warn); font-weight: 600; }
+
+  .terminals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .terminal { cursor: pointer; text-align: left; font: inherit; color: inherit; transition: border-color .15s; }
+  .terminal:hover { border-color: var(--muted-2); }
+  .terminal.is-active { border-color: var(--text); }
+  .term-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .term-name { font-weight: 600; font-size: 14px; }
+  .terminal .count { margin-left: auto; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .t-api .bar i { background: var(--api); }
+  .t-front .bar i { background: var(--front); }
+  .t-ambos .bar i { background: var(--ambos); }
+  .label { margin: 14px 0 3px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .label.ok { color: var(--ok); }
+  .label.doing { color: var(--warn); }
+  .next { font-size: 14px; }
+
+  .tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; white-space: nowrap; color: var(--muted); background: var(--code-bg); }
+  .tag-api { color: var(--api); background: var(--api-bg); }
+  .tag-front { color: var(--front); background: var(--front-bg); }
+  .tag-ambos { color: var(--ambos); background: var(--ambos-bg); }
+  .id { font: 600 12px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); }
+
+  h2 { font-size: 15px; margin: 0; }
+  .p-list { list-style: none; margin: 10px 0 0; padding: 0; }
+  .p-item { display: grid; grid-template-columns: 20px 1fr auto; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); align-items: start; }
+  .p-item .detail { color: var(--muted); font-size: 13px; }
+  .p-item.is-done .title { color: var(--muted); }
+  .p-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; padding-top: 2px; }
+  .due { font-size: 12px; white-space: nowrap; }
+  .due-late { color: var(--bad); font-weight: 600; }
+  .due-soon { color: var(--warn); font-weight: 600; }
+  .due-ok { color: var(--muted); }
+  .blocking { font-size: 11px; font-weight: 600; color: var(--warn); background: var(--warn-bg); padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+
+  .filters {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 12px 0; margin: 16px 0 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chips button {
+    border: 1px solid var(--line); background: var(--card); color: var(--text);
+    border-radius: 99px; padding: 6px 13px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .chips button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .toggle { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+
+  .week { margin-top: 12px; padding: 0; overflow: hidden; }
+  .week.is-current { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+  .week.is-closed .week-head { padding-top: 12px; padding-bottom: 12px; }
+  .week-head { padding: 16px 20px 14px; }
+  .week-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .week-n { font-weight: 700; }
+  .dates { color: var(--muted); margin-left: 8px; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .week h3 { margin: 2px 0 0; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .hito { margin-top: 6px; font-size: 13px; color: var(--muted); }
+  .hito b { color: var(--text); font-weight: 600; }
+  .week-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .week-meta .count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .week-head .bar { margin-top: 12px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .b-current { background: var(--accent-bg); color: var(--accent); }
+  .b-late { background: var(--bad-bg); color: var(--bad); }
+  .b-complete { background: var(--ok-bg); color: var(--ok); }
+  .b-future { color: var(--muted); padding-left: 0; padding-right: 0; }
+
+  .tasks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .task { display: grid; grid-template-columns: 20px 34px 1fr auto; gap: 10px; align-items: start; padding: 10px 20px; border-bottom: 1px solid var(--line); }
+  .task:last-child { border-bottom: 0; }
+  .task .note { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .task .tags { display: flex; align-items: center; gap: 6px; padding-top: 1px; }
+  .pill-next { font-size: 11px; font-weight: 600; color: var(--accent); white-space: nowrap; }
+  .pill-doing { font-size: 11px; font-weight: 600; color: var(--warn); white-space: nowrap; }
+  .status { display: flex; padding-top: 2px; }
+  .status svg { width: 18px; height: 18px; }
+  .ring { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .fill { fill: currentColor; }
+  .stroke { fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .tick { fill: none; stroke: var(--card); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .s-done .status { color: var(--ok); }
+  .s-done .text { color: var(--muted); }
+  .s-next { background: var(--accent-soft); }
+  .s-next .status { color: var(--accent); }
+  .s-doing { background: var(--warn-bg); }
+  .s-doing .status { color: var(--warn); }
+  .s-blocked .status, .s-todo .status { color: var(--muted-2); }
+  .empty { padding: 12px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+
+  footer { margin-top: 28px; text-align: center; color: var(--muted); font-size: 12px; }
+
+  @media (max-width: 760px) {
+    .terminals { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .top { align-items: flex-start; }
+    h1 { font-size: 26px; }
+    .countdown strong { font-size: 34px; }
+    .task { grid-template-columns: 18px 30px 1fr; padding: 10px 16px; }
+    .task .tags { grid-column: 3; }
+    .p-item { grid-template-columns: 20px 1fr; }
+    .p-side { grid-column: 2; align-items: flex-start; }
+    .week-head { padding: 14px 16px 12px; }
+    .week-top { flex-direction: column; gap: 6px; }
+    .card { padding: 16px; }
+    .week.card { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">Roadmap</h1>
+      <p class="sub" id="launch"></p>
+    </div>
+    <div class="countdown"><strong id="days">–</strong><small id="days-label"></small></div>
+  </header>
+
+  <section class="card overall">
+    <div class="overall-head"><span>Avance general</span><strong id="pct"></strong></div>
+    <div class="bar big"><i id="bar"></i></div>
+    <p class="overall-text" id="overall-text"></p>
+  </section>
+
+  <section class="terminals" id="terminals"></section>
+
+  <section class="card">
+    <h2 id="pending-title"></h2>
+    <ul class="p-list" id="pending"></ul>
+  </section>
+
+  <nav class="filters">
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por terminal"></div>
+    <label class="toggle"><input type="checkbox" id="hide-done"> Ocultar hechas</label>
+  </nav>
+
+  <main id="stages"></main>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+
+const TERMINALS = { api: 'resto-api', front: 'resto-front', ambos: 'resto-club/ (general)' };
+const RELOAD_MS = 30000;
+const DAY = 86400000;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const inline = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+const parseDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+const shortDate = (date) => `${date.getDate()}/${date.getMonth() + 1}`;
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const daysUntil = (date) => Math.round((date - today) / DAY);
+const year = DATA.delivery ? parseDate(DATA.delivery).getFullYear() : today.getFullYear();
+
+const tasks = DATA.stages.flatMap((s) => s.tasks);
+const byId = new Map(tasks.map((t) => [t.id, t]));
+const TAGS = [...Object.keys(TERMINALS), ...new Set(tasks.map((t) => t.tag).filter((tag) => !(tag in TERMINALS)))];
+const terminalName = (tag) => TERMINALS[tag] ?? tag;
+
+// Las páginas abiertas como archivo comparten localStorage: la ruta separa los tableros de cada proyecto.
+const STORE_PREFIX = 'roadmap:' + location.pathname + ':';
+const store = {
+  get(key, fallback) {
+    try { const v = localStorage.getItem(STORE_PREFIX + key); return v === null ? fallback : JSON.parse(v); } catch { return fallback; }
+  },
+  set(key, value) {
+    try { localStorage.setItem(STORE_PREFIX + key, JSON.stringify(value)); } catch {}
+  },
+};
+let filterTag = store.get('tag', 'todas');
+let hideDone = store.get('hideDone', false);
+if (filterTag !== 'todas' && !TAGS.includes(filterTag)) filterTag = 'todas';
+
+// Las etapas cerradas se resumen en una línea: sus tareas ya no están en el archivo pero cuentan como hechas.
+const closedStages = new Set(DATA.closed.map((c) => c.n));
+const closedCount = DATA.closed.reduce((sum, c) => sum + c.count, 0);
+const pendingByName = new Map(DATA.pending.map((p) => [p.name.toLowerCase(), p]));
+const isDone = (t) => t.state === 'done';
+const idDone = (id) => { const t = byId.get(id); return t ? isDone(t) : closedStages.has(Number(id.split('.')[0])); };
+const stageDone = (n) => {
+  if (closedStages.has(n)) return true;
+  const stage = DATA.stages.find((s) => s.n === n);
+  return Boolean(stage) && stage.tasks.every(isDone);
+};
+
+// Lo que todavía falta para poder arrancar una tarea. `except` ignora un pendiente (para saber si es lo único que la frena).
+function blockersOf(t, except) {
+  const out = [];
+  for (const id of t.deps) {
+    if (idDone(id)) continue;
+    const dep = byId.get(id);
+    out.push(!dep ? `${id} (no existe)` : dep.state === 'doing' ? `${id} (en curso)` : id);
+  }
+  for (const n of t.stageDeps) if (!stageDone(n)) out.push(`etapa ${n}`);
+  for (const name of t.pendDeps) {
+    if (except && name.toLowerCase() === except) continue;
+    const p = pendingByName.get(name.toLowerCase());
+    if (!p) out.push(`pendiente "${name}" (no existe)`);
+    else if (!p.done) out.push(`"${p.name}"`);
+  }
+  return out;
+}
+
+const nextByTag = Object.fromEntries(TAGS.map((tag) => [tag, tasks.find((t) => t.tag === tag && t.state === 'todo' && !blockersOf(t).length) ?? null]));
+const nextIds = new Set(Object.values(nextByTag).filter(Boolean).map((t) => t.id));
+const taskState = (t) => t.state === 'done' ? 'done' : t.state === 'doing' ? 'doing'
+  : nextIds.has(t.id) ? 'next' : blockersOf(t).length ? 'blocked' : 'todo';
+
+const dated = DATA.stages.some((s) => s.start && s.end);
+const firstOpenStage = DATA.stages.find((s) => !s.tasks.every(isDone))?.n ?? null;
+
+const ICON = {
+  done: '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" class="fill"/><path d="M6 10.4l2.6 2.6L14 7.6" class="tick"/></svg>',
+  todo: '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" class="ring"/></svg>',
+  next: '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" class="ring"/><path d="M8.3 6.6l4.4 3.4-4.4 3.4z" class="fill"/></svg>',
+  doing: '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" class="ring"/><path d="M10 3.5a6.5 6.5 0 010 13z" class="fill"/></svg>',
+  blocked: '<svg viewBox="0 0 20 20"><rect x="5.5" y="9" width="9" height="7" rx="1.5" class="fill"/><path d="M7.6 9V7.2a2.4 2.4 0 014.8 0V9" class="stroke"/></svg>',
+};
+const STATE_LABEL = { done: 'Hecha', todo: 'Pendiente', next: 'Siguiente', doing: 'En curso', blocked: 'Bloqueada' };
+
+function stageState(s) {
+  if (s.tasks.length && s.tasks.every(isDone)) return 'complete';
+  if (s.start && s.end) {
+    if (today > parseDate(s.end)) return 'late';
+    if (today >= parseDate(s.start)) return 'current';
+    return 'future';
+  }
+  return s.n === firstOpenStage ? 'current' : 'future';
+}
+
+function renderHeader() {
+  $('title').textContent = DATA.title;
+  const total = tasks.length + closedCount;
+  const done = tasks.filter(isDone).length + closedCount;
+  const doing = tasks.filter((t) => t.state === 'doing').length;
+
+  if (DATA.delivery) {
+    const delivery = parseDate(DATA.delivery);
+    const d = daysUntil(delivery);
+    $('launch').textContent = 'Entrega: ' + delivery.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    $('days').textContent = Math.abs(d);
+    $('days-label').textContent = d > 0 ? (d === 1 ? 'día para la entrega' : 'días para la entrega')
+      : d === 0 ? 'hoy es la entrega' : 'días desde la entrega';
+  } else {
+    $('launch').textContent = 'Sin fecha de entrega';
+    $('days').textContent = total - done;
+    $('days-label').textContent = total - done === 1 ? 'tarea por hacer' : 'tareas por hacer';
+  }
+
+  const pct = total ? Math.round((done * 100) / total) : 0;
+  $('pct').textContent = pct + '%';
+  $('bar').style.width = pct + '%';
+  document.title = `${DATA.title} · ${pct}%`;
+
+  const late = DATA.stages.filter((s) => s.end && today > parseDate(s.end)).flatMap((s) => s.tasks).filter((t) => !isDone(t)).length;
+  $('overall-text').innerHTML = `${done} de ${plural(total, 'tarea hecha', 'tareas hechas')}`
+    + (doing ? ` · <span class="doing">${doing} en curso</span>` : '')
+    + (late ? ` · <span class="late">${plural(late, 'atrasada', 'atrasadas')} de etapas anteriores</span>` : '');
+}
+
+function renderTerminals() {
+  $('terminals').innerHTML = TAGS.map((tag) => {
+    const list = tasks.filter((t) => t.tag === tag);
+    const done = list.filter(isDone).length;
+    const pct = list.length ? (done * 100) / list.length : 0;
+    const doing = list.filter((t) => t.state === 'doing');
+    const next = nextByTag[tag];
+    let body = doing.map((t) => `<p class="label doing">En curso</p><p class="next"><span class="id">${t.id}</span> ${inline(t.text)}</p>`).join('');
+    if (next) {
+      body += `<p class="label">Siguiente</p><p class="next"><span class="id">${next.id}</span> ${inline(next.text)}</p>`;
+    } else if (!doing.length) {
+      const waiting = list.find((t) => t.state === 'todo');
+      body = !list.length ? '<p class="label">Sin tareas</p>'
+        : !waiting ? '<p class="label ok">Todo hecho</p>'
+        : `<p class="label">Esperando</p><p class="next"><span class="id">${waiting.id}</span> espera ${esc(blockersOf(waiting).join(', '))}</p>`;
+    }
+    return `<div role="button" tabindex="0" class="card terminal t-${tag}${filterTag === tag ? ' is-active' : ''}" data-tag="${tag}" title="Ver solo las tareas de ${esc(terminalName(tag))}">
+      <div class="term-head"><span class="tag tag-${tag}">${tag}</span><span class="term-name">${esc(terminalName(tag))}</span><span class="count">${done}/${list.length}</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>${body}</div>`;
+  }).join('');
+}
+
+// Vencimiento de un pendiente: una fecha d/m en el texto o, si las etapas tienen fechas, "etapa N" / la etapa de la tarea que bloquea.
+function dueDate(detail) {
+  const dm = detail.match(/(\d{1,2})\/(\d{1,2})/);
+  if (dm) return new Date(year, Number(dm[2]) - 1, Number(dm[1]));
+  if (!dated) return null;
+  const st = detail.match(/etapa (\d+)/i);
+  const stage = st && DATA.stages.find((s) => s.n === Number(st[1]));
+  if (stage?.start) return parseDate(stage.start);
+  const id = detail.match(/\b(\d+\.\d+)\b/);
+  const taskStage = id && DATA.stages.find((s) => s.tasks.some((t) => t.id === id[1]));
+  return taskStage?.end ? parseDate(taskStage.end) : null;
+}
+
+// Tareas que solo esperan a este pendiente: todo lo demás que necesitan ya está hecho.
+function blockingNow(p) {
+  const key = p.name.toLowerCase();
+  return tasks.filter((t) => !isDone(t) && t.pendDeps.some((n) => n.toLowerCase() === key) && !blockersOf(t, key).length);
+}
+
+function renderPending() {
+  $('pending-title').textContent = DATA.pendingTitle;
+  $('pending').innerHTML = DATA.pending.map((p) => {
+    const side = [];
+    const date = !p.done && dueDate(p.detail);
+    if (date) {
+      const d = daysUntil(date);
+      side.push(d < 0 ? `<span class="due due-late">Vencido hace ${plural(-d, 'día', 'días')}</span>`
+        : d === 0 ? '<span class="due due-late">Vence hoy</span>'
+        : `<span class="due ${d <= 3 ? 'due-soon' : 'due-ok'}">Vence en ${plural(d, 'día', 'días')}</span>`);
+    }
+    const now = p.done ? [] : blockingNow(p);
+    if (now.length) side.push(`<span class="blocking" title="Es lo único que falta para arrancar estas tareas">Frena ${esc(now.map((t) => t.id).join(', '))}</span>`);
+    return `<li class="p-item${p.done ? ' is-done' : ''}">
+      <span class="status s-${p.done ? 'done' : 'todo'}">${ICON[p.done ? 'done' : 'todo']}</span>
+      <div><p class="title"><strong>${inline(p.name)}</strong></p>${p.detail ? `<p class="detail">${inline(p.detail)}</p>` : ''}</div>
+      <div class="p-side">${side.join('')}</div></li>`;
+  }).join('');
+}
+
+function renderChips() {
+  $('chips').innerHTML = ['todas', ...TAGS].map((tag) =>
+    `<button type="button" data-tag="${tag}" aria-pressed="${filterTag === tag}">${tag === 'todas' ? 'Todas' : tag}</button>`).join('');
+  $('hide-done').checked = hideDone;
+}
+
+function taskRow(t) {
+  const state = taskState(t);
+  const blockers = state === 'blocked' ? blockersOf(t) : [];
+  const notes = blockers.length ? `<p class="note">Espera ${esc(blockers.join(', '))}</p>` : '';
+  const pill = state === 'next' ? '<span class="pill-next">Siguiente</span>' : state === 'doing' ? '<span class="pill-doing">En curso</span>' : '';
+  return `<li class="task s-${state}">
+    <span class="status" title="${STATE_LABEL[state]}">${ICON[state]}</span>
+    <span class="id">${t.id}</span>
+    <div><p class="text">${inline(t.text)}</p>${notes}</div>
+    <span class="tags">${pill}<span class="tag tag-${t.tag}">${t.tag}</span></span></li>`;
+}
+
+function closedCard(c) {
+  return `<section class="card week is-closed">
+    <div class="week-head"><div class="week-top">
+      <div><span class="week-n">Etapa ${c.n}</span><h3>${inline(c.title)}</h3></div>
+      <div class="week-meta"><span class="badge b-complete">Completa</span><span class="count">${plural(c.count, 'tarea', 'tareas')}</span></div>
+    </div></div></section>`;
+}
+
+function renderStages() {
+  const closed = hideDone ? '' : DATA.closed.map(closedCard).join('');
+  $('stages').innerHTML = closed + DATA.stages.map((s) => {
+    const state = stageState(s);
+    const scoped = filterTag === 'todas' ? s.tasks : s.tasks.filter((t) => t.tag === filterTag);
+    const done = scoped.filter(isDone).length;
+    const pct = scoped.length ? (done * 100) / scoped.length : 0;
+    const visible = scoped.filter((t) => !(hideDone && isDone(t)));
+    const badge = {
+      complete: '<span class="badge b-complete">Completa</span>',
+      late: '<span class="badge b-late">Atrasada</span>',
+      current: '<span class="badge b-current">Etapa actual</span>',
+      future: s.start ? `<span class="badge b-future">Empieza en ${plural(daysUntil(parseDate(s.start)), 'día', 'días')}</span>` : '',
+    }[state];
+    const dates = s.start && s.end ? `<span class="dates">${shortDate(parseDate(s.start))} – ${shortDate(parseDate(s.end))}</span>` : '';
+    const list = visible.length
+      ? `<ul class="tasks">${visible.map(taskRow).join('')}</ul>`
+      : `<p class="empty">${scoped.length ? 'Todo hecho.' : 'Sin tareas para este filtro.'}</p>`;
+    return `<section class="card week${state === 'current' ? ' is-current' : ''}">
+      <div class="week-head">
+        <div class="week-top">
+          <div><span class="week-n">Etapa ${s.n}</span>${dates}<h3>${inline(s.title)}</h3></div>
+          <div class="week-meta">${badge}<span class="count">${done}/${scoped.length}</span></div>
+        </div>
+        ${s.hito ? `<p class="hito"><b>Hito:</b> ${inline(s.hito)}</p>` : ''}
+        <div class="bar"><i style="width:${pct}%"></i></div>
+      </div>${list}</section>`;
+  }).join('');
+}
+
+function renderFooter() {
+  const at = new Date(DATA.generatedAt);
+  const when = at.toLocaleString('es-AR', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
+  $('foot').textContent = `Generado desde ROADMAP.md el ${when} · se recarga cada 30 s mientras la ventana está visible`;
+}
+
+function renderFiltered() {
+  renderTerminals();
+  renderChips();
+  renderStages();
+}
+
+function setTag(tag) {
+  filterTag = filterTag === tag && tag !== 'todas' ? 'todas' : tag;
+  store.set('tag', filterTag);
+  renderFiltered();
+}
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-tag]');
+  if (el) setTag(el.dataset.tag);
+});
+document.addEventListener('keydown', (e) => {
+  const el = e.target.closest?.('[role="button"][data-tag]');
+  if (el && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); setTag(el.dataset.tag); }
+});
+$('hide-done').addEventListener('change', (e) => {
+  hideDone = e.target.checked;
+  store.set('hideDone', hideDone);
+  renderStages();
+});
+
+renderHeader();
+renderPending();
+renderFooter();
+renderFiltered();
+
+// Recarga solo mientras la ventana está visible, conservando la posición del scroll.
+const SCROLL_KEY = STORE_PREFIX + 'scroll';
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+try {
+  const y = sessionStorage.getItem(SCROLL_KEY);
+  sessionStorage.removeItem(SCROLL_KEY);
+  if (y !== null) window.scrollTo(0, Number(y));
+} catch {}
+
+const loadedAt = Date.now();
+function reload() {
+  try { sessionStorage.setItem(SCROLL_KEY, String(window.scrollY)); } catch {}
+  location.reload();
+}
+setInterval(() => { if (document.visibilityState === 'visible') reload(); }, RELOAD_MS);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && Date.now() - loadedAt > 5000) reload();
+});
+</script>
+</body>
+</html>
